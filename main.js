@@ -10,7 +10,7 @@ snakeCanvas.height = snakeCanvas.width / (BlocksX/BlocksY);
 const pixelsPerBlock = snakeCanvas.height/BlocksY;
 let centerX = (Math.ceil(BlocksX / 2) - 1) * pixelsPerBlock;
 let centerY = (Math.ceil(BlocksY / 2) - 1) * pixelsPerBlock;
-const interval = 150;
+let interval = 150;
 
 const eventKeysToDirection = {
     w: 'up',
@@ -228,8 +228,3 @@ document.getElementById("restart").addEventListener("click", event => {
     event.preventDefault();
     reset();
 })
-
-document.getElementById("check").addEventListener("click", event => {
-    console.log(mode);
-})
-
