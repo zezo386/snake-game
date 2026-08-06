@@ -38,6 +38,7 @@ let snakeCoords = {
     H: { x: centerX, y: centerY },
     B: [],
     F: {},
+    Blocks: []
 };
 
 do {
@@ -72,6 +73,10 @@ function render(){
         context.fillStyle = 'green';
 
         context.fillRect(snakeCoords["F"].x, snakeCoords["F"].y, pixelsPerBlock, pixelsPerBlock);
+        context.fillStyle = 'blue';
+        for (let block of snakeCoords["Blocks"]){
+            context.fillRect(block.x, block.y, pixelsPerBlock, pixelsPerBlock);
+        }
         document.getElementById("score").innerText = `Score: ${score}`;
         document.getElementById("length").innerText = `Length: ${length}`;
         if (bestScore){
@@ -129,6 +134,12 @@ function CheckPassThrough(obj){
                 return gameOver;
             }
         }
+        for (let block of snakeCoords["Blocks"]){
+            if (block.x == obj.x && block.y == obj.y){
+                gameOver = 1;
+                return gameOver;
+            }
+        }
     }
     else {
         return 1;
@@ -168,13 +179,22 @@ function CheckFood(){
             if (last_cell){
                 snakeCoords["B"].push(0);
             }
-            
-            
         }
         snakeCoords["B"].push(0);
         score++;
+        if (score%2==1){
+            addWall();
+        }
         length++;
     }
+}
+
+function addWall(){
+    do {
+        newBlock = {x: Math.floor(Math.random() * BlocksX)* pixelsPerBlock, y:Math.floor(Math.random() * BlocksY)* pixelsPerBlock};
+    }
+    while(newBlock == snakeCoords["H"] || CheckPassThrough(newBlock));
+    snakeCoords["Blocks"].push(newBlock)
 }
 
 function main(){
