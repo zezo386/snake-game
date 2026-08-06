@@ -2,6 +2,7 @@ const Container = document.getElementById("container");
 const snakeCanvas = document.getElementById("SnakeCanvas");
 const BlocksX = 40;
 const BlocksY = 16;
+const fruit_eat_SFX = new Audio("fruit-eat.mp3");
 
 snakeCanvas.width = Container.offsetWidth - 60;
 snakeCanvas.height = snakeCanvas.width / (BlocksX/BlocksY);
@@ -182,10 +183,13 @@ function CheckFood(){
         }
         snakeCoords["B"].push(0);
         score++;
-        if (score%2==1){
-            addWall();
+        if (mode == 3){
+            if (score%2==1){
+                addWall();
+            }
         }
         length++;
+        fruit_eat_SFX.play();
     }
 }
 
