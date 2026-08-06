@@ -153,9 +153,24 @@ function WallClip(){
 function CheckFood(){
     if (((snakeCoords["H"].x === snakeCoords["F"].x) && (snakeCoords["H"].y === snakeCoords["F"].y)) && !gameOver){
         do {
+            
             snakeCoords["F"] = {x: Math.floor(Math.random() * BlocksX)* pixelsPerBlock, y:Math.floor(Math.random() * BlocksY)* pixelsPerBlock};
         }
         while(snakeCoords["F"] == snakeCoords["H"] || CheckPassThrough(snakeCoords["F"]));
+        if (mode == 2){
+            let last_cell = snakeCoords["B"].pop();
+            if (last_cell){
+                console.log(moveDirection)
+                snakeCoords["H"] = {x: last_cell.x, y: last_cell.y};
+            }
+            moveDirection = oppositeDirections[moveDirection];
+            snakeCoords["B"].reverse();
+            if (last_cell){
+                snakeCoords["B"].push(0);
+            }
+            
+            
+        }
         snakeCoords["B"].push(0);
         score++;
         length++;
@@ -166,11 +181,11 @@ function main(){
     moveSnake();
 
     
-    if (mode == 0){
-        CheckOut();
+    if (mode == 1){
+        WallClip()
     }
-    else if (mode == 1){
-        WallClip();
+    else{
+        CheckOut()
     }
     gameOver = CheckPassThrough(snakeCoords["H"]);
     
