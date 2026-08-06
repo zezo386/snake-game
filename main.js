@@ -10,7 +10,7 @@ snakeCanvas.height = snakeCanvas.width / (BlocksX/BlocksY);
 const pixelsPerBlock = snakeCanvas.height/BlocksY;
 let centerX = (Math.ceil(BlocksX / 2) - 1) * pixelsPerBlock;
 let centerY = (Math.ceil(BlocksY / 2) - 1) * pixelsPerBlock;
-const interval = 100;
+const interval = 150;
 
 const eventKeysToDirection = {
     w: 'up',
@@ -32,6 +32,7 @@ const oppositeDirections = {
 
 let score = 0;
 let length = 1;
+let bestScore = localStorage.getItem("best_score");
 
 let snakeCoords = {
     H: { x: centerX, y: centerY },
@@ -53,6 +54,7 @@ function reset(){
     document.getElementById("restart").style.display = "none";
     score = 0;
     length = 1;
+    bestScore = localStorage.getItem("best_score");
 
     snakeCoords = {
         H: { x: centerX, y: centerY },
@@ -93,6 +95,21 @@ function render(){
         context.fillRect(snakeCoords["F"].x, snakeCoords["F"].y, pixelsPerBlock, pixelsPerBlock);
         document.getElementById("score").innerText = `Score: ${score}`;
         document.getElementById("length").innerText = `Length: ${length}`;
+        if (bestScore){
+            if (score > bestScore){
+                localStorage.setItem("best_score",score);
+                bestScore = score;
+            }
+        }
+        else {
+            if (score){
+                localStorage.setItem("best_score",score);
+                bestScore = score;
+            }
+        }
+        if (bestScore){
+            document.getElementById("best-score").innerText = `Best Score: ${bestScore}`
+        }
     }
 }
 
@@ -120,10 +137,7 @@ function moveSnake(){
 }
 
 function CheckOut(){
-    if (
-        snakeCoords["H"].x < 0 || snakeCoords["H"].x > snakeCanvas.width ||
-        snakeCoords["H"].y < 0 || snakeCoords["H"].y > snakeCoords.height
-    ){
+    if ((snakeCoords["H"].x < 0) || (snakeCoords["H"].x > snakeCanvas.width) || (snakeCoords["H"].y < 0) || (snakeCoords["H"].y > snakeCanvas.height)){
         gameOver = 1;
     }
 }
