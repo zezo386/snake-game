@@ -48,6 +48,7 @@ while(snakeCoords["H"].x == snakeCoords["F"].x && snakeCoords["H"].y && snakeCoo
 let gameOver = 0;
 let moveDirection = null;
 let oppositeDirection = null;
+let mode = 0;
 let repeat = window.setInterval(main, interval);
 
 function reset(){
@@ -130,7 +131,22 @@ function CheckPassThrough(obj){
         }
     }
     else {
-        return gameOver;
+        return 1;
+    }
+}
+
+function WallClip(){
+    if (snakeCoords["H"].x < 0){
+        snakeCoords["H"].x = snakeCanvas.width - pixelsPerBlock;
+    }
+    else if (snakeCoords["H"].x > snakeCanvas.width){
+        snakeCoords["H"].x = 0;
+    }
+    if (snakeCoords["H"].y < 0){
+        snakeCoords["H"].y = snakeCanvas.height - pixelsPerBlock;
+    }
+    else if (snakeCoords["H"].y > snakeCanvas.height){
+        snakeCoords["H"].y = 0;
     }
 }
 
@@ -149,8 +165,15 @@ function CheckFood(){
 function main(){
     moveSnake();
 
-    CheckOut();
+    
+    if (mode == 0){
+        CheckOut();
+    }
+    else if (mode == 1){
+        WallClip();
+    }
     gameOver = CheckPassThrough(snakeCoords["H"]);
+    
     CheckFood();
 
     render();
@@ -171,4 +194,7 @@ document.getElementById("restart").addEventListener("click", event => {
     reset();
 })
 
+document.getElementById("check").addEventListener("click", event => {
+    console.log(mode);
+})
 
