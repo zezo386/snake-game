@@ -51,30 +51,8 @@ let oppositeDirection = null;
 let repeat = window.setInterval(main, interval);
 
 function reset(){
-    document.getElementById("restart").style.display = "none";
-    score = 0;
-    length = 1;
-    bestScore = localStorage.getItem("best_score");
-
-    snakeCoords = {
-        H: { x: centerX, y: centerY },
-        B: [],
-        F: {},
-    };
-
-    do {
-        snakeCoords["F"] = {x: Math.floor(Math.random() * BlocksX)* pixelsPerBlock, y:Math.floor(Math.random() * BlocksY)* pixelsPerBlock};
-    }
-    while(snakeCoords["H"].x == snakeCoords["F"].x && snakeCoords["H"].y && snakeCoords["F"].y);
-
-    gameOver = 0;
-    moveDirection = null;
-    oppositeDirection = null;
-    repeat = window.setInterval(main, interval);
+    window.location.reload();
 }
-
-reset()
-
 
 
 function render(){
